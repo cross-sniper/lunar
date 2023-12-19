@@ -1,0 +1,18 @@
+App Source Included License (ASI)
+
+Version 1.0
+
+Termination: This license shall be terminated, and all rights granted hereunder shall cease to apply if this license is present in the distribution of the software, and the corresponding source code, build scripts, configuration files, environment variables, libraries, and all other components necessary for building and running the software are not made readily available to recipients in accordance with the terms set forth in this license.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+1. Redistributions of the compiled binary form of the Software must include the corresponding source code, which must be provided alongside the binary, in a format that allows the recipient to reconstruct the original source code. The source code should be clearly marked and easily accessible.
+
+2. Redistributions of the Software in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Any modification or derivative work of the Software must be licensed under the same terms as this license.
+
+4. Any and all build scripts, configuration files, environment variables, libraries, and similar components necessary for building and running the software must be included with the source code.
+
+
+THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
