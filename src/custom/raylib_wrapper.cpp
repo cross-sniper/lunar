@@ -1,47 +1,4 @@
 #include <raylib.h>
-
-/* add stuff to be implemented, then when they are implemented, remove them from here.
-
- * TODO:
-  - implement luna/lua support for the following functions:
-
-    the image functions
-
-    some of the 3d stuff
- text functions to add
-RLAPI void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters
-RLAPI void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, float rotation, float fontSize, float spacing, Color tint); // Draw text using Font and pro parameters (rotation)
-RLAPI void DrawTextCodepoint(Font font, int codepoint, Vector2 position, float fontSize, Color tint); // Draw one character (codepoint)
-RLAPI void DrawTextCodepoints(Font font, const int *codepoints, int codepointCount, Vector2 position, float fontSize, float spacing, Color tint); // Draw multiple character (codepoint)
-
-// Input-related functions: mouse
-RLAPI bool IsMouseButtonPressed(int button);                  // Check if a mouse button has been pressed once
-RLAPI bool IsMouseButtonDown(int button);                     // Check if a mouse button is being pressed
-RLAPI bool IsMouseButtonReleased(int button);                 // Check if a mouse button has been released once
-RLAPI bool IsMouseButtonUp(int button);                       // Check if a mouse button is NOT being pressed
-RLAPI int GetMouseX(void);                                    // Get mouse position X
-RLAPI int GetMouseY(void);                                    // Get mouse position Y
-RLAPI Vector2 GetMousePosition(void);                         // Get mouse position XY
-RLAPI Vector2 GetMouseDelta(void);                            // Get mouse delta between frames
-RLAPI void SetMousePosition(int x, int y);                    // Set mouse position XY
-RLAPI void SetMouseOffset(int offsetX, int offsetY);          // Set mouse offset
-RLAPI void SetMouseScale(float scaleX, float scaleY);         // Set mouse scaling
-RLAPI float GetMouseWheelMove(void);                          // Get mouse wheel movement for X or Y, whichever is larger
-RLAPI Vector2 GetMouseWheelMoveV(void);                       // Get mouse wheel movement for both X and Y
-RLAPI void SetMouseCursor(int cursor);                        // Set mouse cursor
-
-
-// Input-related functions: keyboard
-RLAPI bool IsKeyPressed(int key);                             // Check if a key has been pressed once
-RLAPI bool IsKeyPressedRepeat(int key);                       // Check if a key has been pressed again (Only PLATFORM_DESKTOP)
-RLAPI bool IsKeyReleased(int key);                            // Check if a key has been released once
-RLAPI bool IsKeyUp(int key);                                  // Check if a key is NOT being pressed
-RLAPI int GetKeyPressed(void);                                // Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
-RLAPI int GetCharPressed(void);                               // Get char pressed (unicode), call it multiple times for chars queued, returns 0 when the queue is empty
-RLAPI void SetExitKey(int key);                               // Set a custom key to exit program (default is ESC)
-
-
-*/
 //every luna_ when refering to raylib, is just so we dont conflict with raylib
 
 static int luna_is_key_pressed(luna_State *L){
@@ -153,8 +110,6 @@ static int Luna_should_close_window(luna_State *L)
     return 1;
 }
 
-//RLAPI void DrawText(const char *text, int posX, int posY, int fontSize, Color color);
-
 // Wrapper function to draw text
 static int Luna_draw_text(luna_State *L) {
     const char *text = lunaL_checkstring(L, 1);
@@ -186,7 +141,24 @@ static int addRaylibFunction(luna_State *L, int (*function)(luna_State *), const
 
 static int init_raylib_keys(luna_State *L)
 {
-    // Add Raylib key constants using the helper function
+    // Alphanumeric keys
+    addRaylibKeyConstant(L, "KEY_APOSTROPHE", KEY_APOSTROPHE);
+    addRaylibKeyConstant(L, "KEY_COMMA", KEY_COMMA);
+    addRaylibKeyConstant(L, "KEY_MINUS", KEY_MINUS);
+    addRaylibKeyConstant(L, "KEY_PERIOD", KEY_PERIOD);
+    addRaylibKeyConstant(L, "KEY_SLASH", KEY_SLASH);
+    addRaylibKeyConstant(L, "KEY_ZERO", KEY_ZERO);
+    addRaylibKeyConstant(L, "KEY_ONE", KEY_ONE);
+    addRaylibKeyConstant(L, "KEY_TWO", KEY_TWO);
+    addRaylibKeyConstant(L, "KEY_THREE", KEY_THREE);
+    addRaylibKeyConstant(L, "KEY_FOUR", KEY_FOUR);
+    addRaylibKeyConstant(L, "KEY_FIVE", KEY_FIVE);
+    addRaylibKeyConstant(L, "KEY_SIX", KEY_SIX);
+    addRaylibKeyConstant(L, "KEY_SEVEN", KEY_SEVEN);
+    addRaylibKeyConstant(L, "KEY_EIGHT", KEY_EIGHT);
+    addRaylibKeyConstant(L, "KEY_NINE", KEY_NINE);
+    addRaylibKeyConstant(L, "KEY_SEMICOLON", KEY_SEMICOLON);
+    addRaylibKeyConstant(L, "KEY_EQUAL", KEY_EQUAL);
     addRaylibKeyConstant(L, "KEY_A", KEY_A);
     addRaylibKeyConstant(L, "KEY_B", KEY_B);
     addRaylibKeyConstant(L, "KEY_C", KEY_C);
@@ -213,6 +185,79 @@ static int init_raylib_keys(luna_State *L)
     addRaylibKeyConstant(L, "KEY_X", KEY_X);
     addRaylibKeyConstant(L, "KEY_Y", KEY_Y);
     addRaylibKeyConstant(L, "KEY_Z", KEY_Z);
+    addRaylibKeyConstant(L, "KEY_LEFT_BRACKET", KEY_LEFT_BRACKET);
+    addRaylibKeyConstant(L, "KEY_BACKSLASH", KEY_BACKSLASH);
+    addRaylibKeyConstant(L, "KEY_RIGHT_BRACKET", KEY_RIGHT_BRACKET);
+    addRaylibKeyConstant(L, "KEY_GRAVE", KEY_GRAVE);
+
+    // Function keys
+    addRaylibKeyConstant(L, "KEY_SPACE", KEY_SPACE);
+    addRaylibKeyConstant(L, "KEY_ESCAPE", KEY_ESCAPE);
+    addRaylibKeyConstant(L, "KEY_ENTER", KEY_ENTER);
+    addRaylibKeyConstant(L, "KEY_TAB", KEY_TAB);
+    addRaylibKeyConstant(L, "KEY_BACKSPACE", KEY_BACKSPACE);
+    addRaylibKeyConstant(L, "KEY_INSERT", KEY_INSERT);
+    addRaylibKeyConstant(L, "KEY_DELETE", KEY_DELETE);
+    addRaylibKeyConstant(L, "KEY_RIGHT", KEY_RIGHT);
+    addRaylibKeyConstant(L, "KEY_LEFT", KEY_LEFT);
+    addRaylibKeyConstant(L, "KEY_DOWN", KEY_DOWN);
+    addRaylibKeyConstant(L, "KEY_UP", KEY_UP);
+    addRaylibKeyConstant(L, "KEY_PAGE_UP", KEY_PAGE_UP);
+    addRaylibKeyConstant(L, "KEY_PAGE_DOWN", KEY_PAGE_DOWN);
+    addRaylibKeyConstant(L, "KEY_HOME", KEY_HOME);
+    addRaylibKeyConstant(L, "KEY_END", KEY_END);
+    addRaylibKeyConstant(L, "KEY_CAPS_LOCK", KEY_CAPS_LOCK);
+    addRaylibKeyConstant(L, "KEY_SCROLL_LOCK", KEY_SCROLL_LOCK);
+    addRaylibKeyConstant(L, "KEY_NUM_LOCK", KEY_NUM_LOCK);
+    addRaylibKeyConstant(L, "KEY_PRINT_SCREEN", KEY_PRINT_SCREEN);
+    addRaylibKeyConstant(L, "KEY_PAUSE", KEY_PAUSE);
+    addRaylibKeyConstant(L, "KEY_F1", KEY_F1);
+    addRaylibKeyConstant(L, "KEY_F2", KEY_F2);
+    addRaylibKeyConstant(L, "KEY_F3", KEY_F3);
+    addRaylibKeyConstant(L, "KEY_F4", KEY_F4);
+    addRaylibKeyConstant(L, "KEY_F5", KEY_F5);
+    addRaylibKeyConstant(L, "KEY_F6", KEY_F6);
+    addRaylibKeyConstant(L, "KEY_F7", KEY_F7);
+    addRaylibKeyConstant(L, "KEY_F8", KEY_F8);
+    addRaylibKeyConstant(L, "KEY_F9", KEY_F9);
+    addRaylibKeyConstant(L, "KEY_F10", KEY_F10);
+    addRaylibKeyConstant(L, "KEY_F11", KEY_F11);
+    addRaylibKeyConstant(L, "KEY_F12", KEY_F12);
+    addRaylibKeyConstant(L, "KEY_LEFT_SHIFT", KEY_LEFT_SHIFT);
+    addRaylibKeyConstant(L, "KEY_LEFT_CONTROL", KEY_LEFT_CONTROL);
+    addRaylibKeyConstant(L, "KEY_LEFT_ALT", KEY_LEFT_ALT);
+    addRaylibKeyConstant(L, "KEY_LEFT_SUPER", KEY_LEFT_SUPER);
+    addRaylibKeyConstant(L, "KEY_RIGHT_SHIFT", KEY_RIGHT_SHIFT);
+    addRaylibKeyConstant(L, "KEY_RIGHT_CONTROL", KEY_RIGHT_CONTROL);
+    addRaylibKeyConstant(L, "KEY_RIGHT_ALT", KEY_RIGHT_ALT);
+    addRaylibKeyConstant(L, "KEY_RIGHT_SUPER", KEY_RIGHT_SUPER);
+    addRaylibKeyConstant(L, "KEY_KB_MENU", KEY_KB_MENU);
+
+    // Keypad keys
+    addRaylibKeyConstant(L, "KEY_KP_0", KEY_KP_0);
+    addRaylibKeyConstant(L, "KEY_KP_1", KEY_KP_1);
+    addRaylibKeyConstant(L, "KEY_KP_2", KEY_KP_2);
+    addRaylibKeyConstant(L, "KEY_KP_3", KEY_KP_3);
+    addRaylibKeyConstant(L, "KEY_KP_4", KEY_KP_4);
+    addRaylibKeyConstant(L, "KEY_KP_5", KEY_KP_5);
+    addRaylibKeyConstant(L, "KEY_KP_6", KEY_KP_6);
+    addRaylibKeyConstant(L, "KEY_KP_7", KEY_KP_7);
+    addRaylibKeyConstant(L, "KEY_KP_8", KEY_KP_8);
+    addRaylibKeyConstant(L, "KEY_KP_9", KEY_KP_9);
+    addRaylibKeyConstant(L, "KEY_KP_DECIMAL", KEY_KP_DECIMAL);
+    addRaylibKeyConstant(L, "KEY_KP_DIVIDE", KEY_KP_DIVIDE);
+    addRaylibKeyConstant(L, "KEY_KP_MULTIPLY", KEY_KP_MULTIPLY);
+    addRaylibKeyConstant(L, "KEY_KP_SUBTRACT", KEY_KP_SUBTRACT);
+    addRaylibKeyConstant(L, "KEY_KP_ADD", KEY_KP_ADD);
+    addRaylibKeyConstant(L, "KEY_KP_ENTER", KEY_KP_ENTER);
+    addRaylibKeyConstant(L, "KEY_KP_EQUAL", KEY_KP_EQUAL);
+
+    // Android key buttons
+    addRaylibKeyConstant(L, "KEY_BACK", KEY_BACK);
+    addRaylibKeyConstant(L, "KEY_MENU", KEY_MENU);
+    addRaylibKeyConstant(L, "KEY_VOLUME_UP", KEY_VOLUME_UP);
+    addRaylibKeyConstant(L, "KEY_VOLUME_DOWN", KEY_VOLUME_DOWN);
+
     return 1;
 }
 
