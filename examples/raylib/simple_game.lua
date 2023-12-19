@@ -23,23 +23,18 @@ while not raylib.windowShouldClose() do
 
     -- Clear the background with a custom color (optional, default is black)
     raylib.clearBackground()
-    --[[
-    A|a : 65
-    D|d : 68
-    S|s : 83
-    W|w : 87
-    ]]
-    --if the A|a key is pressed, move left
-    if raylib.IsKeyDown(65) then
+
+    if raylib.IsKeyDown(raylib.KEY_A) then
         x = x - 5
     end
-    if raylib.IsKeyDown(68) then
+
+    if raylib.IsKeyDown(raylib.KEY_D) then
         x = x + 5
     end
-    if raylib.IsKeyDown(83) then
+    if raylib.IsKeyDown(raylib.KEY_S) then
         y = y + 5
     end
-    if raylib.IsKeyDown(87) then
+    if raylib.IsKeyDown(raylib.KEY_W) then
         y = y - 5
     end
 

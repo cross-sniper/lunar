@@ -14,8 +14,6 @@ RLAPI void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 or
 RLAPI void DrawTextCodepoint(Font font, int codepoint, Vector2 position, float fontSize, Color tint); // Draw one character (codepoint)
 RLAPI void DrawTextCodepoints(Font font, const int *codepoints, int codepointCount, Vector2 position, float fontSize, float spacing, Color tint); // Draw multiple character (codepoint)
 
-
-
 // Input-related functions: mouse
 RLAPI bool IsMouseButtonPressed(int button);                  // Check if a mouse button has been pressed once
 RLAPI bool IsMouseButtonDown(int button);                     // Check if a mouse button is being pressed
@@ -36,7 +34,6 @@ RLAPI void SetMouseCursor(int cursor);                        // Set mouse curso
 // Input-related functions: keyboard
 RLAPI bool IsKeyPressed(int key);                             // Check if a key has been pressed once
 RLAPI bool IsKeyPressedRepeat(int key);                       // Check if a key has been pressed again (Only PLATFORM_DESKTOP)
-RLAPI bool IsKeyDown(int key);                                // Check if a key is being pressed
 RLAPI bool IsKeyReleased(int key);                            // Check if a key has been released once
 RLAPI bool IsKeyUp(int key);                                  // Check if a key is NOT being pressed
 RLAPI int GetKeyPressed(void);                                // Get key pressed (keycode), call it multiple times for keys queued, returns 0 when the queue is empty
@@ -175,57 +172,71 @@ static int Luna_draw_text(luna_State *L) {
 
     return 0;
 }
+// Helper function to add Raylib key constants to the Lua table
+static int addRaylibKeyConstant(luna_State *L, const char *keyName, int keyValue) {
+    luna_pushinteger(L, keyValue);
+    luna_setfield(L, -2, keyName);
+    return 1;
+}
+static int addRaylibFunction(luna_State *L, int (*function)(luna_State *), const char *name) {
+    luna_pushcfunction(L, function);
+    luna_setfield(L, -2, name);
+    return 1;
+}
 
+static int init_raylib_keys(luna_State *L)
+{
+    // Add Raylib key constants using the helper function
+    addRaylibKeyConstant(L, "KEY_A", KEY_A);
+    addRaylibKeyConstant(L, "KEY_B", KEY_B);
+    addRaylibKeyConstant(L, "KEY_C", KEY_C);
+    addRaylibKeyConstant(L, "KEY_D", KEY_D);
+    addRaylibKeyConstant(L, "KEY_E", KEY_E);
+    addRaylibKeyConstant(L, "KEY_F", KEY_F);
+    addRaylibKeyConstant(L, "KEY_G", KEY_G);
+    addRaylibKeyConstant(L, "KEY_H", KEY_H);
+    addRaylibKeyConstant(L, "KEY_I", KEY_I);
+    addRaylibKeyConstant(L, "KEY_J", KEY_J);
+    addRaylibKeyConstant(L, "KEY_K", KEY_K);
+    addRaylibKeyConstant(L, "KEY_L", KEY_L);
+    addRaylibKeyConstant(L, "KEY_M", KEY_M);
+    addRaylibKeyConstant(L, "KEY_N", KEY_N);
+    addRaylibKeyConstant(L, "KEY_O", KEY_O);
+    addRaylibKeyConstant(L, "KEY_P", KEY_P);
+    addRaylibKeyConstant(L, "KEY_Q", KEY_Q);
+    addRaylibKeyConstant(L, "KEY_R", KEY_R);
+    addRaylibKeyConstant(L, "KEY_S", KEY_S);
+    addRaylibKeyConstant(L, "KEY_T", KEY_T);
+    addRaylibKeyConstant(L, "KEY_U", KEY_U);
+    addRaylibKeyConstant(L, "KEY_V", KEY_V);
+    addRaylibKeyConstant(L, "KEY_W", KEY_W);
+    addRaylibKeyConstant(L, "KEY_X", KEY_X);
+    addRaylibKeyConstant(L, "KEY_Y", KEY_Y);
+    addRaylibKeyConstant(L, "KEY_Z", KEY_Z);
+    return 1;
+}
 
-// luna module registration function
 static int init_raylib(luna_State *L) {
-    // Register the createRaylibTable function as the module's entry point
-
     // Create a new table
     luna_newtable(L);
 
-    // Add functions to the table
-    luna_pushcfunction(L, Luna_create_window);
-    luna_setfield(L, -2, "createWindow");
+    // Add functions to the table using addRaylibFunction
+    addRaylibFunction(L, Luna_create_window, "createWindow");
+    addRaylibFunction(L, Luna_draw_text, "DrawText");
+    addRaylibFunction(L, Luna_close_window, "closeWindow");
+    addRaylibFunction(L, Luna_draw_rectangle, "DrawRectangle");
+    addRaylibFunction(L, Luna_fill_bg, "clearBackground");
+    addRaylibFunction(L, luna_is_key_pressed, "IsKeyPressed");
+    addRaylibFunction(L, Luna_start_drawing, "beginDrawing");
+    addRaylibFunction(L, Luna_stop_drawing, "endDrawing");
+    addRaylibFunction(L, luna_is_key_down, "IsKeyDown");
+    addRaylibFunction(L, luna_set_target_fps, "SetTargetFPS");
+    addRaylibFunction(L, Luna_should_close_window, "windowShouldClose");
+    addRaylibFunction(L, luna_draw_fps, "DrawFPS");
+    addRaylibFunction(L, luna_get_fps, "GetFPS");
+    addRaylibFunction(L, luna_get_frame_time, "GetFrameTime");
 
-    luna_pushcfunction(L, Luna_draw_text);
-    luna_setfield(L, -2, "DrawText");
-
-    luna_pushcfunction(L, Luna_close_window);
-    luna_setfield(L, -2, "closeWindow");
-
-    luna_pushcfunction(L,Luna_draw_rectangle);
-    luna_setfield(L, -2, "DrawRectangle");
-
-    luna_pushcfunction(L, Luna_fill_bg);
-    luna_setfield(L, -2, "clearBackground");
-
-    luna_pushcfunction(L,luna_is_key_pressed);
-    luna_setfield(L, -2, "IsKeyPressed");
-
-    luna_pushcfunction(L, Luna_start_drawing);
-    luna_setfield(L, -2, "beginDrawing");
-
-    luna_pushcfunction(L, Luna_stop_drawing);
-    luna_setfield(L, -2, "endDrawing");
-
-    luna_pushcfunction(L,luna_is_key_down);
-    luna_setfield(L,-2, "IsKeyDown");
-
-    luna_pushcfunction(L, luna_set_target_fps);
-    luna_setfield(L, -2, "SetTargetFPS");
-
-    luna_pushcfunction(L, Luna_should_close_window);
-    luna_setfield(L, -2, "windowShouldClose");
-
-    luna_pushcfunction(L, luna_draw_fps);
-    luna_setfield(L, -2, "DrawFPS");
-
-    luna_pushcfunction(L, luna_get_fps);
-    luna_setfield(L, -2, "GetFPS");
-
-    luna_pushcfunction(L, luna_get_frame_time);
-    luna_setfield(L, -2, "GetFrameTime");
+    init_raylib_keys(L);
 
     return 1;  // Return the table
 }
