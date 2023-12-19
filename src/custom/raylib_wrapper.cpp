@@ -5,49 +5,71 @@
  * TODO:
   - implement luna/lua support for the following functions:
 
-RLAPI Image LoadImage(const char *fileName);                                                             // Load image from file into CPU memory (RAM)
-RLAPI Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);       // Load image from RAW file data
-RLAPI Image LoadImageSvg(const char *fileNameOrString, int width, int height);                           // Load image from SVG file data or string with specified size
-RLAPI Image LoadImageAnim(const char *fileName, int *frames);                                            // Load image sequence from file (frames appended to image.data)
-RLAPI Image LoadImageFromMemory(const char *fileType, const unsigned char *fileData, int dataSize);      // Load image from memory buffer, fileType refers to extension: i.e. '.png'
-RLAPI Image LoadImageFromTexture(Texture2D texture);                                                     // Load image from GPU texture data
-RLAPI Image LoadImageFromScreen(void);                                                                   // Load image from screen buffer and (screenshot)
-RLAPI bool IsImageReady(Image image);                                                                    // Check if an image is ready
-RLAPI void UnloadImage(Image image);                                                                     // Unload image from CPU memory (RAM)
-RLAPI bool ExportImage(Image image, const char *fileName);                                               // Export image data to file, returns true on success
-RLAPI unsigned char *ExportImageToMemory(Image image, const char *fileType, int *fileSize);              // Export image to memory buffer
-RLAPI bool ExportImageAsCode(Image image, const char *fileName);                                         // Export image as code file defining an array of bytes, returns true on success
+    the image functions
 
-
-// Text drawing functions
-RLAPI void DrawFPS(int posX, int posY);                                                     // Draw current FPS
-RLAPI void DrawText(const char *text, int posX, int posY, int fontSize, Color color);       // Draw text (using default font)
+    some of the 3d stuff
 RLAPI void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint); // Draw text using font and additional parameters
 RLAPI void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, float rotation, float fontSize, float spacing, Color tint); // Draw text using Font and pro parameters (rotation)
 RLAPI void DrawTextCodepoint(Font font, int codepoint, Vector2 position, float fontSize, Color tint); // Draw one character (codepoint)
 RLAPI void DrawTextCodepoints(Font font, const int *codepoints, int codepointCount, Vector2 position, float fontSize, float spacing, Color tint); // Draw multiple character (codepoint)
 
 
-reference for the Image struct:
+// Basic geometric 3D shapes drawing functions
+RLAPI void DrawLine3D(Vector3 startPos, Vector3 endPos, Color color);                                    // Draw a line in 3D world space
+RLAPI void DrawPoint3D(Vector3 position, Color color);                                                   // Draw a point in 3D space, actually a small line
+RLAPI void DrawCircle3D(Vector3 center, float radius, Vector3 rotationAxis, float rotationAngle, Color color); // Draw a circle in 3D world space
+RLAPI void DrawTriangle3D(Vector3 v1, Vector3 v2, Vector3 v3, Color color);                              // Draw a color-filled triangle (vertex in counter-clockwise order!)
+RLAPI void DrawTriangleStrip3D(Vector3 *points, int pointCount, Color color);                            // Draw a triangle strip defined by points
 
-// Image, pixel data stored in CPU memory (RAM)
-typedef struct Image {
-    void *data;             // Image raw data
-    int width;              // Image base width
-    int height;             // Image base height
-    int mipmaps;            // Mipmap levels, 1 by default
-    int format;             // Data format (PixelFormat type)
-} Image;
-
-some usefull functions to add:
-
-    // Timing-related functions
-    RLAPI float GetFrameTime(void);                                   // Get time in seconds for last frame drawn (delta time)
-    RLAPI double GetTime(void);                                       // Get elapsed time in seconds since InitWindow()
-    RLAPI int GetFPS(void);                                           // Get current FPS
+RLAPI void DrawCubeV(Vector3 position, Vector3 size, Color color);                                       // Draw cube (Vector version)
+RLAPI void DrawCubeWires(Vector3 position, float width, float height, float length, Color color);        // Draw cube wires
+RLAPI void DrawCubeWiresV(Vector3 position, Vector3 size, Color color);                                  // Draw cube wires (Vector version)
+RLAPI void DrawSphere(Vector3 centerPos, float radius, Color color);                                     // Draw sphere
+RLAPI void DrawSphereEx(Vector3 centerPos, float radius, int rings, int slices, Color color);            // Draw sphere with extended parameters
+RLAPI void DrawSphereWires(Vector3 centerPos, float radius, int rings, int slices, Color color);         // Draw sphere wires
+RLAPI void DrawCylinder(Vector3 position, float radiusTop, float radiusBottom, float height, int slices, Color color); // Draw a cylinder/cone
+RLAPI void DrawCylinderEx(Vector3 startPos, Vector3 endPos, float startRadius, float endRadius, int sides, Color color); // Draw a cylinder with base at startPos and top at endPos
+RLAPI void DrawCylinderWires(Vector3 position, float radiusTop, float radiusBottom, float height, int slices, Color color); // Draw a cylinder/cone wires
+RLAPI void DrawCylinderWiresEx(Vector3 startPos, Vector3 endPos, float startRadius, float endRadius, int sides, Color color); // Draw a cylinder wires with base at startPos and top at endPos
+RLAPI void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int rings, Color color); // Draw a capsule with the center of its sphere caps at startPos and endPos
+RLAPI void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices, int rings, Color color); // Draw capsule wireframe with the center of its sphere caps at startPos and endPos
+RLAPI void DrawPlane(Vector3 centerPos, Vector2 size, Color color);                                      // Draw a plane XZ
+RLAPI void DrawRay(Ray ray, Color color);                                                                // Draw a ray line
+RLAPI void DrawGrid(int slices, float spacing);                                                          // Draw a grid (centered at (0, 0, 0))
 
 */
 //every luna_ when refering to raylib, is just so we dont conflict with raylib
+
+//DrawCube(Vector3 position, float width, float height, float length, Color color);
+static int Luna_draw_cube_3d(luna_State *L){
+
+    return 0;
+}
+
+static int luna_draw_fps(luna_State *L){
+    int x,y;
+    x = lunaL_checkinteger(L,1);
+    y = lunaL_checkinteger(L,2);
+    DrawFPS(x,y);
+    return 0;
+}
+
+static int luna_get_time(luna_State *L){
+    luna_pushinteger(L,GetTime());
+    return 1;
+}
+
+static int luna_get_frame_time(luna_State* L)
+{
+    luna_pushinteger(L, GetFrameTime());
+    return 1;
+}
+static int luna_get_fps(luna_State *L)
+{
+    luna_pushinteger(L,GetFPS());
+    return 1;
+}
+
 static int luna_set_target_fps(luna_State *L)
 {
     int _ = lunaL_optinteger(L,1, 60); // defaults to 60 fps, if no value given
@@ -104,7 +126,7 @@ static int Luna_fill_bg(luna_State *L) {
 }
 
 // Wrapper function to begin drawing
-static int Luna_start_drowing(luna_State *L) {
+static int Luna_start_drawing(luna_State *L) {
     BeginDrawing();
     return 0;
 }
@@ -121,6 +143,27 @@ static int Luna_should_close_window(luna_State *L)
     return 1;
 }
 
+//RLAPI void DrawText(const char *text, int posX, int posY, int fontSize, Color color);
+
+// Wrapper function to draw text
+static int Luna_draw_text(luna_State *L) {
+    const char *text = lunaL_checkstring(L, 1);
+    int posX = lunaL_checkinteger(L, 2);
+    int posY = lunaL_checkinteger(L, 3);
+    int fontSize = lunaL_checkinteger(L, 4);
+
+    Color color;
+    color.r = lunaL_optinteger(L, 5, 255);  // Default to 255 if not provided
+    color.g = lunaL_optinteger(L, 6, 255);
+    color.b = lunaL_optinteger(L, 7, 255);
+    color.a = lunaL_optinteger(L, 8, 255);
+
+    DrawText(text, posX, posY, fontSize, color);
+
+    return 0;
+}
+
+
 // luna module registration function
 static int init_raylib(luna_State *L) {
     // Register the createRaylibTable function as the module's entry point
@@ -132,6 +175,9 @@ static int init_raylib(luna_State *L) {
     luna_pushcfunction(L, Luna_create_window);
     luna_setfield(L, -2, "createWindow");
 
+    luna_pushcfunction(L, Luna_draw_text);
+    luna_setfield(L, -2, "DrawText");
+
     luna_pushcfunction(L, Luna_close_window);
     luna_setfield(L, -2, "closeWindow");
 
@@ -141,7 +187,7 @@ static int init_raylib(luna_State *L) {
     luna_pushcfunction(L, Luna_fill_bg);
     luna_setfield(L, -2, "clearBackground");
 
-    luna_pushcfunction(L, Luna_start_drowing);
+    luna_pushcfunction(L, Luna_start_drawing);
     luna_setfield(L, -2, "beginDrawing");
 
     luna_pushcfunction(L, Luna_stop_drawing);
@@ -153,6 +199,14 @@ static int init_raylib(luna_State *L) {
     luna_pushcfunction(L, Luna_should_close_window);
     luna_setfield(L, -2, "windowShouldClose");
 
+    luna_pushcfunction(L, luna_draw_fps);
+    luna_setfield(L, -2, "DrawFPS");
+
+    luna_pushcfunction(L, luna_get_fps);
+    luna_setfield(L, -2, "GetFPS");
+
+    luna_pushcfunction(L, luna_get_frame_time);
+    luna_setfield(L, -2, "GetFrameTime");
 
     return 1;  // Return the table
 }
