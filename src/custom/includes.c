@@ -1,7 +1,7 @@
 #include "io.c"
 #include "regex.c"
 #include "server.cpp"
-#include "raylib_wrapper.cpp"
+#include "raylib/raylib_wrapper.cpp"
 
 static const lunaL_Reg base_funcs[] = {
   //custom functions start
