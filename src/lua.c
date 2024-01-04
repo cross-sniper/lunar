@@ -674,6 +674,7 @@ int main (int argc, char **argv) {
     l_message(argv[0], "cannot create state: not enough memory");
     return EXIT_FAILURE;
   }
+
   luna_gc(L, LUNA_GCSTOP);  /* stop GC while building state */
   luna_pushcfunction(L, &pmain);  /* to call 'pmain' in protected mode */
   luna_pushinteger(L, argc);  /* 1st argument */

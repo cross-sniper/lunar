@@ -12,8 +12,8 @@ static const lunaL_Reg base_funcs[] = {
   {"regex",match_regex},
   {"init_server",init_server},
   {"raylib_init", init_raylib},
-
   //custom functions end
+
   {"assert", lunaB_assert},
   {"collectgarbage", lunaB_collectgarbage},
   {"dofile", lunaB_dofile},

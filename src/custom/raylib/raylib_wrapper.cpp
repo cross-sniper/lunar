@@ -261,6 +261,7 @@ static int Luna_get_mouse_position(luna_State *L)
 //this is just so this file dosent become unredable
 #include "raylib_init_helper.cpp"
 #include "raylib_init_audio.cpp"
+#include "raylib_3d.cpp"
 
 
 
@@ -323,6 +324,7 @@ static int init_raylib(luna_State *L) {
     init_raylib_keys(L);
     luna_init_colors(L);
     raylib_init_audio(L);
+    raylib_init_3d(L);
 
     return 1;  // Return the table
 }
